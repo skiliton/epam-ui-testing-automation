@@ -24,16 +24,13 @@ public class JobOpening {
 
     private By location;
 
-    private By icons;
-
     public JobOpening(WebDriver driver, int index){
         this.driver = driver;
-        String jobOpening = ".search-result > ul > li:nth-child("+index+")";
+        String jobOpening = ".search-result > ul > li:nth-child("+(index+1)+")";
         applyLink = By.cssSelector(jobOpening+" .search-result__item-apply");
         titleLink = By.cssSelector(jobOpening+" .search-result__item-name");
         description = By.cssSelector(jobOpening+" .search-result__item-description");
         location = By.cssSelector(jobOpening+" .search-result__location");
-        icons = By.cssSelector(jobOpening+" .search-result__item-icon");
     }
 
     public JobOpeningPage clickTitle(){
@@ -51,27 +48,5 @@ public class JobOpening {
     public String getTitle(){return driver.findElement(titleLink).getText();}
 
     public String getLocation(){return driver.findElement(location).getText();}
-
-    public void hoverOverTagIcon(String tag){
-        List<WebElement> iconList = driver.findElements(icons);
-        for (WebElement icon: iconList) {
-            boolean containsTagText = Pattern.compile(Pattern.quote(tag), Pattern.CASE_INSENSITIVE).matcher(icon.getAttribute("data-title")).find();
-            if(containsTagText){
-                Actions actions = new Actions(driver);
-                actions.moveToElement(icon).perform();
-                return;
-            }
-        }
-        throw new IllegalArgumentException("Cannot find tag to hover over");
-    }
-
-    public String getActiveTagHint(){
-        List<WebElement> iconList = driver.findElements(icons);
-        for (WebElement icon: iconList) {
-            if(icon.getAttribute("innerHTML").contains("::after")){
-                return icon.getAttribute("data-title");
-            }
-        }
-        throw new IllegalArgumentException("Cannot find active hint");}
 
 }
