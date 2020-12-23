@@ -1,10 +1,12 @@
 package com.repeta.qa;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SearchBar {
@@ -27,11 +29,14 @@ public class SearchBar {
 
     private By submitButton = By.cssSelector(".recruiting-search__submit");
 
+    private By highlightedLocation =  By.cssSelector(".select2-results__option--highlighted");
+
+
     public SearchBar(WebDriver driver){
         this.driver = driver;
     }
 
-    public void openSkillsDropdownMenu(){
+    public void openCloseSkillsDropdownMenu(){
         driver.findElement(skillsDropdown).click();
     }
 
@@ -56,6 +61,9 @@ public class SearchBar {
     public void enterLocation(String location){
         driver.findElement(locationSelector).click();
         driver.findElement(locationField).sendKeys(location);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(highlightedLocation));
+        driver.findElement(highlightedLocation).click();
     }
 
     public void enterKeywordOrID(String text){
@@ -73,4 +81,32 @@ public class SearchBar {
     public void submit(){
         driver.findElement(submitButton).click();
     };
+
+    public void hoverOverTagIcon(String tag){
+        List<WebElement> iconList = driver.findElements(typeTags);
+        for (WebElement icon: iconList) {
+            String text = icon.getText();
+            if(text.contains(tag)){
+                Actions actions = new Actions(driver);
+                actions.moveToElement(icon).perform();
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Cannot find tag to hover over");
+    }
+
+
+
+    public String getActiveTagHint(){
+        List<WebElement> iconList = driver.findElements(typeTags);
+        for (WebElement icon: iconList) {
+            JavascriptExecutor js = (JavascriptExecutor)driver;
+            String innerHTML = (String) js.executeScript("return arguments[0].innerHTML;",icon);
+            System.out.print(innerHTML);
+            if(innerHTML.contains("::after")){
+                return icon.getAttribute("data-title");
+            }
+        }
+        throw new IllegalArgumentException("Cannot find active hint");
+    }
 }
