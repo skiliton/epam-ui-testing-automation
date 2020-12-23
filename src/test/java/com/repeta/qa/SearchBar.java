@@ -102,7 +102,6 @@ public class SearchBar {
         for (WebElement icon: iconList) {
             JavascriptExecutor js = (JavascriptExecutor)driver;
             String innerHTML = (String) js.executeScript("return arguments[0].innerHTML;",icon);
-            System.out.print(innerHTML);
             if(innerHTML.contains("::after")){
                 return icon.getAttribute("data-title");
             }
