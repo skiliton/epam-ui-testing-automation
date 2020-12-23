@@ -10,9 +10,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,10 +31,11 @@ public class StepDefinitions {
 
     private SearchBar searchBar;
 
+
     @Before
     public void setUp() throws Exception {
         System.setProperty("webdriver.gecko.driver", "/usr/bin/geckodriver");
-
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
         driver = new FirefoxDriver();
         page = new JoinOurTeamPage(driver);
 
@@ -47,9 +52,9 @@ public class StepDefinitions {
         assertTrue(page.getJobOpenings().size()>0);
     }
 
-    @Then("I should see only one job opening")
-    public void i_should_see_only_one_job_opening() {
-        assertEquals(0,page.getJobOpenings().size());
+    @Then("I should see {int} job opening(s)")
+    public void i_should_see_job_openings(int joAmount) {
+        assertEquals(joAmount,page.getJobOpenings().size());
     }
 
 
@@ -85,19 +90,17 @@ public class StepDefinitions {
             throw new IllegalStateException("Corresponding job opening title is not set. You should first open job opening page through job opening preview");
         }
         JobOpeningPage page = new JobOpeningPage(driver);
-        assertEquals(correspondingJobOpeningTitle,page.getJobTitle());
+        assertTrue(page.getJobTitle().contains(correspondingJobOpeningTitle));
     }
 
-    @When("I hover over the {string} tag icon of the {int} job opening")
-    public void i_hover_over_the_tag_icon(String tag, int joIndex){
-        JobOpening jo = page.getJobOpenings().get(joIndex-1);
-        jo.hoverOverTagIcon(tag);
+    @When("I hover over the {string} tag icon on the search bar")
+    public void i_hover_over_the_tag_icon(String tag){
+        searchBar.hoverOverTagIcon(tag);
     }
 
-    @Then("I should see {string} hint underneath the tag icon of the {int} job opening")
-    public void i_should_see_hint_underneath_the_tag_icon_of_the_job_opening(String text, int joIndex){
-        JobOpening jo = page.getJobOpenings().get(joIndex-1);
-        assertEquals(text,jo.getActiveTagHint());
+    @Then("I should see {string} hint underneath the tag icon on the search bar")
+    public void i_should_see_hint_underneath_the_tag_icon_of_the_job_opening(String text){
+        assertEquals(text,searchBar.getActiveTagHint());
     }
 
 
@@ -159,7 +162,9 @@ public class StepDefinitions {
                 "Training & Coaching",
                 "User Experience & Design"
         };
+        searchBar.openCloseSkillsDropdownMenu();
         i_selected_skills(selectRandomList(skills));
+        searchBar.openCloseSkillsDropdownMenu();
     }
 
     @Given("I selected any tags")
@@ -174,7 +179,7 @@ public class StepDefinitions {
 
     @Given("I opened skills dropdown menu")
     public void i_opened_skills_dropdown_menu(){
-        searchBar.openSkillsDropdownMenu();
+        searchBar.openCloseSkillsDropdownMenu();
     }
 
     @When("I select {string} skill")
