@@ -1,15 +1,14 @@
 package com.repeta.qa.stepdefs;
 
-import com.repeta.qa.JobOpening;
-import com.repeta.qa.JobOpeningPage;
-import com.repeta.qa.JoinOurTeamPage;
+import com.repeta.qa.jot.JobOpening;
+import com.repeta.qa.jobopening.JobOpeningPage;
+import com.repeta.qa.jot.JoinOurTeamPage;
 import com.repeta.qa.WebDriverContext;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
-
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +24,7 @@ public class JobOpeningStepDefinitions {
     @Before
     public void setUp(){
         driver  = WebDriverContext.getDriver();
-        page = new JoinOurTeamPage(driver);
+        page = new JoinOurTeamPage(driver, WebDriverContext.TIMEOUT);
     }
 
     @Given("I found any job openings")
@@ -77,7 +76,7 @@ public class JobOpeningStepDefinitions {
         if(correspondingJobOpeningTitle==null){
             throw new IllegalStateException("Corresponding job opening title is not set. You should first open job opening page through job opening preview");
         }
-        JobOpeningPage page = new JobOpeningPage(driver);
+        JobOpeningPage page = new JobOpeningPage(driver,WebDriverContext.TIMEOUT);
         assertTrue(page.getJobTitle().contains(correspondingJobOpeningTitle));
     }
 

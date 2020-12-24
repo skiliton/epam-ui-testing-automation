@@ -1,12 +1,11 @@
 package com.repeta.qa.stepdefs;
 
-import com.repeta.qa.JoinOurTeamPage;
+import com.repeta.qa.jot.JoinOurTeamPage;
 import com.repeta.qa.Loadable;
 import com.repeta.qa.Page;
 import com.repeta.qa.WebDriverContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 
 import static org.junit.Assert.assertTrue;
@@ -23,8 +22,7 @@ public class PageStepDefinitions {
     @Given("I am on {string} page")
     public void i_am_on_page(String pageTitle) {
         if(pageTitle.equals("Join our Team")){
-
-            Loadable page = new JoinOurTeamPage(driver);
+            Loadable page = new JoinOurTeamPage(driver,WebDriverContext.TIMEOUT);
             page.loadPage();
         }else {
             throw new IllegalArgumentException("Page "+pageTitle+" cannot be loaded");
@@ -33,7 +31,7 @@ public class PageStepDefinitions {
 
     @Then("I should see message {string}")
     public void i_should_see_message(String message) {
-        Page page = new Page(driver);
+        Page page = new Page(driver,WebDriverContext.TIMEOUT);
         assertTrue(page.containsText(message));
     }
 

@@ -1,20 +1,24 @@
-package com.repeta.qa;
+package com.repeta.qa.jot;
 
+import com.repeta.qa.Loadable;
+import com.repeta.qa.Page;
+import com.repeta.qa.jot.JobOpening;
+import com.repeta.qa.jot.JobSearchBar;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoinOurTeamPage extends Page implements Loadable{
+public class JoinOurTeamPage extends Page implements Loadable {
 
     private static final String URL = "https://www.epam.com/careers/job-listings";
     private By joSearchResults = By.cssSelector(".search-result__item");
 
-    public JoinOurTeamPage(WebDriver driver) {
-        super(driver);
+    public JoinOurTeamPage(WebDriver driver, int timeout) {
+        super(driver, timeout);
     }
+
 
     @Override
     public boolean loadPage() {
@@ -24,7 +28,7 @@ public class JoinOurTeamPage extends Page implements Loadable{
     }
 
     public List<JobOpening> getJobOpenings(){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
         try {
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(joSearchResults));
         }catch (TimeoutException e){
@@ -38,7 +42,8 @@ public class JoinOurTeamPage extends Page implements Loadable{
         return jobOpeningList;
     }
 
-    public SearchBar getSearchBar(){
-        return new SearchBar(driver);
+    public JobSearchBar getSearchBar(){
+        return new JobSearchBar(driver,timeout);
     }
+
 }

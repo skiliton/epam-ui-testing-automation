@@ -1,12 +1,14 @@
-package com.repeta.qa;
+package com.repeta.qa.jobopening;
 
+import com.repeta.qa.Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class JobOpeningPage extends Page {
 
-    public JobOpeningPage(WebDriver driver) {
-        super(driver);
+
+    public JobOpeningPage(WebDriver driver, int timeout) {
+        super(driver, timeout);
     }
 
     public String getJobTitle(){

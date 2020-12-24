@@ -1,13 +1,11 @@
 package com.repeta.qa.stepdefs;
 
-import com.repeta.qa.SearchBar;
+import com.repeta.qa.jot.JobSearchBar;
 import com.repeta.qa.WebDriverContext;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.WebDriver;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,11 +15,11 @@ import static org.junit.Assert.assertTrue;
 
 public class JobSearchStepDefinitions {
 
-    private SearchBar searchBar;
+    private JobSearchBar searchBar;
 
     @Before
     public void setUp(){
-        searchBar = new SearchBar(WebDriverContext.getDriver());
+        searchBar = new JobSearchBar(WebDriverContext.getDriver(),WebDriverContext.TIMEOUT);
     }
 
     @When("I hover over the {string} tag icon on the search bar")

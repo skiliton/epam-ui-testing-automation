@@ -2,15 +2,11 @@ package com.repeta.qa;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Page {
+public class Page extends PageObject{
 
-    protected WebDriver driver;
-
-    public Page(WebDriver driver) {
-        this.driver = driver;
+    public Page(WebDriver driver, int timeout) {
+        super(driver, timeout);
     }
 
     public boolean containsText(String text){

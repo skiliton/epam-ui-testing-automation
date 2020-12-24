@@ -1,17 +1,15 @@
-package com.repeta.qa;
+package com.repeta.qa.jot;
 
+import com.repeta.qa.PageObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class SearchBar {
+public class JobSearchBar extends PageObject {
 
-    private WebDriver driver;
 
     private By skillsDropdown = By.cssSelector(".selected-params");
 
@@ -31,9 +29,8 @@ public class SearchBar {
 
     private By highlightedLocation =  By.cssSelector(".select2-results__option--highlighted");
 
-
-    public SearchBar(WebDriver driver){
-        this.driver = driver;
+    public JobSearchBar(WebDriver driver, int timeout) {
+        super(driver, timeout);
     }
 
     public void openCloseSkillsDropdownMenu(){
@@ -61,7 +58,7 @@ public class SearchBar {
     public void enterLocation(String location){
         driver.findElement(locationSelector).click();
         driver.findElement(locationField).sendKeys(location);
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
         wait.until(ExpectedConditions.visibilityOfElementLocated(highlightedLocation));
         driver.findElement(highlightedLocation).click();
     }
@@ -78,8 +75,10 @@ public class SearchBar {
             .collect(Collectors.toList());
     }
 
-    public void submit(){
+    public JoinOurTeamPage submit()
+    {
         driver.findElement(submitButton).click();
+        return new JoinOurTeamPage(driver,timeout);
     };
 
     public void hoverOverTagIcon(String tag){
