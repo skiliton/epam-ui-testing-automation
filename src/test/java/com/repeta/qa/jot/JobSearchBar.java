@@ -3,6 +3,7 @@ package com.repeta.qa.jot;
 import com.repeta.qa.PageObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
@@ -10,24 +11,32 @@ import java.util.stream.Collectors;
 
 public class JobSearchBar extends PageObject {
 
+    @FindBy(css = ".selected-params")
+    private By skillsDropdown;
 
-    private By skillsDropdown = By.cssSelector(".selected-params");
+    @FindBy(css=".checkbox-custom-label")
+    private By skills;
 
-    private By skills = By.cssSelector(".checkbox-custom-label");
+    @FindBy(css=".filter-tag")
+    private By skillTags;
 
-    private By skillTags = By.cssSelector(".filter-tag");
+    @FindBy(css=".recruiting-search__filter-label")
+    private By typeTags;
 
-    private By typeTags = By.cssSelector(".recruiting-search__filter-label");
+    @FindBy(css=".select2-selection")
+    private By locationSelector;
 
-    private By locationSelector = By.cssSelector(".select2-selection");
+    @FindBy(css=".select2-search__field")
+    private By locationField;
 
-    private By locationField = By.cssSelector(".select2-search__field");
+    @FindBy(css=".recruiting-search__input")
+    private By keywordOrIdField;
 
-    private By keywordOrIdField = By.cssSelector(".recruiting-search__input");
+    @FindBy(css=".recruiting-search__submit")
+    private By submitButton;
 
-    private By submitButton = By.cssSelector(".recruiting-search__submit");
-
-    private By highlightedLocation =  By.cssSelector(".select2-results__option--highlighted");
+    @FindBy(css=".select2-results__option--highlighted")
+    private By highlightedLocation;
 
     public JobSearchBar(WebDriver driver, int timeout) {
         super(driver, timeout);

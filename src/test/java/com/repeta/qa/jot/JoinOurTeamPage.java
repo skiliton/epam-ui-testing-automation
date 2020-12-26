@@ -5,6 +5,7 @@ import com.repeta.qa.Page;
 import com.repeta.qa.jot.JobOpening;
 import com.repeta.qa.jot.JobSearchBar;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.ArrayList;
@@ -13,7 +14,9 @@ import java.util.List;
 public class JoinOurTeamPage extends Page implements Loadable {
 
     private static final String URL = "https://www.epam.com/careers/job-listings";
-    private By joSearchResults = By.cssSelector(".search-result__item");
+
+    @FindBy(css=".search-result__item")
+    private By joSearchResults;
 
     public JoinOurTeamPage(WebDriver driver, int timeout) {
         super(driver, timeout);
