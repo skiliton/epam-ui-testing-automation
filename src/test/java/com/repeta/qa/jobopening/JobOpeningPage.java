@@ -7,11 +7,13 @@ import org.openqa.selenium.WebDriver;
 public class JobOpeningPage extends Page {
 
 
+    private final By jobPosition = By.cssSelector("#main > article > div > header > h1");
+
     public JobOpeningPage(WebDriver driver, int timeout) {
         super(driver, timeout);
     }
 
     public String getJobTitle(){
-        return driver.findElement(By.cssSelector("#main > article > div > header > h1")).getText();
+        return driver.findElement(jobPosition).getText();
     }
 }

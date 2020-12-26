@@ -19,7 +19,6 @@ public class JoinOurTeamPage extends Page implements Loadable {
         super(driver, timeout);
     }
 
-
     @Override
     public boolean loadPage() {
         String currentUrl = driver.getCurrentUrl();

@@ -10,13 +10,30 @@ public class JobOpening extends PageObject {
 
     private int index;
 
+    private String previewCardCssSelector(){
+        return ".search-result > ul > li:nth-child("+(index+1)+")";
+    }
+
+    private By titleLink() {
+        return By.cssSelector(previewCardCssSelector()+" .search-result__item-name");
+    }
+
+    private By applyLink() {
+        return By.cssSelector(previewCardCssSelector()+" .search-result__item-apply");
+    }
+
+    private By description() {
+        return By.cssSelector(previewCardCssSelector()+" .search-result__item-description");
+    }
+
+    private By location() {
+        return By.cssSelector(previewCardCssSelector()+" .search-result__location");
+    }
+
     public JobOpening(WebDriver driver, int timeout) {
         super(driver, timeout);
     }
 
-    private String previewCardCssSelector(){
-        return ".search-result > ul > li:nth-child("+(index+1)+")";
-    }
     public JobOpening(WebDriver driver,int timeout, int index){
         super(driver,timeout);
         this.index = index;
@@ -31,24 +48,17 @@ public class JobOpening extends PageObject {
     }
 
     public JobOpeningPage clickTitle(){
-        By titleLink = titleLink();
-        driver.findElement(titleLink).click();
+        driver.findElement(titleLink()).click();
         return new JobOpeningPage(driver, WebDriverContext.TIMEOUT);
     }
 
-    private By titleLink() {
-        return By.cssSelector(previewCardCssSelector()+" .search-result__item-name");
-    }
-
     public JobOpeningPage apply(){
-        By applyLink = By.cssSelector(previewCardCssSelector()+" .search-result__item-apply");
-        driver.findElement(applyLink).click();
+        driver.findElement(applyLink()).click();
         return new JobOpeningPage(driver,WebDriverContext.TIMEOUT);
     }
 
     public String getDescription(){
-        By description = By.cssSelector(previewCardCssSelector()+" .search-result__item-description");
-        return driver.findElement(description).getText();
+        return driver.findElement(description()).getText();
     }
 
     public String getTitle(){
@@ -56,8 +66,9 @@ public class JobOpening extends PageObject {
     }
 
     public String getLocation(){
-        By location = By.cssSelector(previewCardCssSelector()+" .search-result__location");
-        return driver.findElement(location).getText();
+        return driver.findElement(location()).getText();
     }
+
+
 
 }
