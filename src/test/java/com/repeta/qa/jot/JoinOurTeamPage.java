@@ -13,6 +13,7 @@ import java.util.List;
 public class JoinOurTeamPage extends Page implements Loadable {
 
     private static final String URL = "https://www.epam.com/careers/job-listings";
+
     private By joSearchResults = By.cssSelector(".search-result__item");
 
     public JoinOurTeamPage(WebDriver driver, int timeout) {
