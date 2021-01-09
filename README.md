@@ -1,4 +1,4 @@
-# epam-ui-testing-automation
+# UI Testing
 Ui testing automation for the EPAM site using Selenium WebDriver and Cucumber
 
 ## Technologies
